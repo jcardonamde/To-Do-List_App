@@ -1,0 +1,43 @@
+<ion-content>
+  <div class="content-container">
+    <div class="task-list">
+      <div class="task-list__header">
+        <img src="../../../assets/images/rocket.svg" alt="Logo" class="task-list__header-logo">
+        <h1 class="task-list__header-title">To-Do List App</h1>
+      </div>
+
+      <div class="task-input">
+        <ion-input [(ngModel)]="newTask" placeholder="Nombre de la tarea" class="task-input__text"></ion-input>
+        <div class="task-input__container-category">
+          <ion-select [(ngModel)]="taskCategory" placeholder="Seleccione una categoría" class="task-input__category" (ionChange)="onCategoryChange($event)">
+            <ion-select-option *ngFor="let category of categories" [value]="category.id">
+              {{ category.name }}
+            </ion-select-option>
+            <ion-select-option value="addNewCategory">+ Agregar nueva categoría</ion-select-option>
+            <ion-select-option value="manageCategory">Gestionar categorías</ion-select-option>
+          </ion-select>
+
+          <ion-button (click)="addTask()" shape="round" expand="full" fill="solid" class="btnCreate">
+            Agregar <ion-icon name="add-circle"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+
+      <hr>
+      <ion-list lines="none" class="cardsList">
+        <ion-item *ngFor="let task of filteredTasks; let i = index">
+          <ion-label [class.completed]="task.completed">{{ task.title }}</ion-label>
+          <ion-checkbox slot="start" [(ngModel)]="task.completed" (ionChange)="toggleTask(task)"></ion-checkbox>
+          <ion-button *ngIf="task.id" slot="end" fill="clear" (click)="deleteTask(task.id)">
+            <ion-icon name="trash-outline" color="danger"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-list>
+
+      <div class="task-stats">
+        <p>{{ completedTasks }} of {{ filteredTasks.length }} tasks completed</p>
+        <ion-button fill="clear" (click)="clearCompleted()">Clear completed</ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>
