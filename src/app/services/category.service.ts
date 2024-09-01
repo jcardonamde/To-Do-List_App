@@ -11,20 +11,13 @@ export class CategoryService {
     this.loadCategories();
   }
 
-  private loadCategories() {
-    const storedCategories = localStorage.getItem('categories');
-    this.categories = storedCategories ? JSON.parse(storedCategories) : [];
-  }
-
-  private saveCategories() {
-    localStorage.setItem('categories', JSON.stringify(this.categories));
-  }
-
-  getCategories(): Category[] {
+  // Obtiene todas las categorías almacenadas
+  public getCategories(): Category[] {
     return this.categories;
   }
 
-  addCategory(name: string): Category {
+  // Añade una nueva categoría
+  public addCategory(name: string): Category {
     const newCategory: Category = {
       id: this.generateId(),
       name
@@ -34,7 +27,8 @@ export class CategoryService {
     return newCategory;
   }
 
-  updateCategory(id: string, name: string) {
+  // Actualiza el nombre de una categoría existente
+  public updateCategory(id: string, name: string) {
     const index = this.categories.findIndex(cat => cat.id === id);
     if (index > -1) {
       this.categories[index].name = name;
@@ -42,11 +36,24 @@ export class CategoryService {
     }
   }
 
-  deleteCategory(id: string) {
+  // Elimina una categoría por su ID
+  public deleteCategory(id: string) {
     this.categories = this.categories.filter(cat => cat.id !== id);
     this.saveCategories();
   }
 
+  // Carga las categorías desde el almacenamiento local
+  private loadCategories() {
+    const storedCategories = localStorage.getItem('categories');
+    this.categories = storedCategories ? JSON.parse(storedCategories) : [];
+  }
+
+  // Guarda las categorías en el almacenamiento local
+  private saveCategories() {
+    localStorage.setItem('categories', JSON.stringify(this.categories));
+  }
+
+  // Genera un ID único para una nueva categoría
   private generateId(): string {
     return '_' + Math.random().toString(36).substr(2, 9);
   }

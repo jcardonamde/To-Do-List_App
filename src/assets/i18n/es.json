@@ -1,0 +1,13 @@
+{
+  "headerTitle": "To-Do List App",
+  "filterByCategory": "Filtrar por categoría",
+  "allCategories": "Todas las categorías",
+  "taskNamePlaceholder": "Nombre de la tarea",
+  "assignCategoryPlaceholder": "Asignar una categoría",
+  "addNewCategory": "+ Agregar nueva categoría",
+  "manageCategories": "Gestionar categorías",
+  "addTaskButton": "Agregar",
+  "unionCounterTask": "de",
+  "textCounterTasks": "tareas completadas",
+  "clearCompletedTasks": "Limpiar Tareas Completadas"
+}
