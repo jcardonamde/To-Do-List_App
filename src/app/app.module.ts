@@ -11,6 +11,10 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { provideRemoteConfig, getRemoteConfig, RemoteConfig } from '@angular/fire/remote-config';
+import { environment } from '../environments/environment';
+
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -29,9 +33,13 @@ export function HttpLoaderFactory(http: HttpClient) {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideRemoteConfig(() => getRemoteConfig())
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

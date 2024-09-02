@@ -7,6 +7,9 @@ import { TaskService } from '../../services/task.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { HomeConfig } from './home.config';
+import { getRemoteConfig, fetchAndActivate, getValue, RemoteConfig } from '@angular/fire/remote-config';
+import { initializeApp } from 'firebase/app';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -22,19 +25,22 @@ export class HomePage {
 
   public HomeConfig = HomeConfig;
   public texts: { [key: string]: string } = {};
+  public enableLogo: boolean = true;
 
   constructor(
     private alertController: AlertController,
     private categoryService: CategoryService,
     private taskService: TaskService,
     private cdr: ChangeDetectorRef,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private remoteConfig: RemoteConfig
   ) {
     this.translate.setDefaultLang('es');
     this.loadTexts();
+    this.initializeFirebaseConfig();
   }
 
-  // Se llama cuando la vista está a punto de entrar en el ciclo de vida activo.
+  // Se llama cuando la vista está a punto de entrar en el ciclo de vida activo
   // Carga las tareas desde el servicio
   ionViewWillEnter() {
     this.loadTasks();
@@ -243,15 +249,31 @@ export class HomePage {
     await alert.present();
   }
 
-  // Método general para cargar todos los textos necesarios
+  // Método general para cargar todos los textos necesarios desde el archivo config i18n
   private loadTexts() {
     const keys = Object.values(HomeConfig);
-    this.translate.get(keys).subscribe(translations => {
-      console.log('Loaded translations:', translations);
 
+    this.translate.get(keys).subscribe(translations => {
       keys.forEach((key) => {
         this.texts[key] = translations[key];
       });
     });
+  }
+
+  // Inicializa Firebase Remote Config
+  private async initializeFirebaseConfig() {
+    const remoteConfig = this.remoteConfig || getRemoteConfig(initializeApp(environment.firebaseConfig));
+
+    remoteConfig.settings.minimumFetchIntervalMillis = 3600000; // 1 hora
+
+    try {
+      await fetchAndActivate(remoteConfig);
+      this.enableLogo = getValue(remoteConfig, 'enableLogo').asBoolean();
+
+      // Valor en consola de enableLogo Firebase
+      console.log('Valor de enableLogo from Remote Config:', this.enableLogo);
+    } catch (err) {
+      console.error('Error fetching o activando remote config:', err);
+    }
   }
 }

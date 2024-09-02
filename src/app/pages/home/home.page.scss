@@ -115,7 +115,7 @@ ion-content {
     border-radius: 5px;
     margin-bottom: 0.625rem;
     outline: none;
-    padding: 10px;
+    padding: 0.625rem;
     width: 60%;
     --background-hover: transparent;
     --background-focused: transparent;
@@ -148,11 +148,11 @@ ion-content {
 }
 
 .task-divider {
-  margin-bottom: 15px;
+  margin-bottom: 0.938rem;
 }
 
 .cardsList {
-  padding: 0px 10px 0px 10px;
+  padding: 0px 0.625rem 0px 0.625rem;
 
   ion-item {
     display: flex;
@@ -160,13 +160,13 @@ ion-content {
 
     ion-label {
       font-size: 1rem;
-      margin-right: 10px;
+      margin-right: 0.625rem;
       flex-grow: 1;
     }
 
     ion-badge {
       font-size: 0.75rem;
-      padding: 5px 10px;
+      padding: 0.313rem 0.625rem;
     }
 
     .completed {
