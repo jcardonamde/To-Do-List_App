@@ -22,7 +22,7 @@ Este proyecto es una aplicación de lista de tareas (To-Do List) construida con 
 
 1. **Clonar el Repositorio**
    ```bash
-   git clone https://github.com/tu-usuario/todo-app.git
+   git clone https://github.com/jcardonamde/To-Do-List_App.git
    cd todo-app
 
 2. **Instalar Dependencias**
