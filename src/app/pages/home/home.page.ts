@@ -46,7 +46,7 @@ export class HomePage {
     this.loadTasks();
   }
 
-  // Getters Publicos
+  // Getters
   public get categories(): Category[] {
     return this.categoryService.getCategories();
   }
